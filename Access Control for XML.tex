@@ -1,85 +1,89 @@
-% Access Control in XML
-
 \documentclass[runningheads]{llncs}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{pdfpages}
 \usepackage{listings} % For XML code examples
-
 \begin{document}
 \title{XML Access Control: Models, Policies and Implementation}
 \author{Biliuți Andrei \and Zara Mihnea-Tudor \and Roman Tudor}
 \institute{"Alexandru Ioan Cuza" University of Iași, Iași IS 700132, Romania
 \email{romantudor.contact@gmail.com}}
 \maketitle
-
 \begin{abstract}
-This paper presents a comprehensive overview of XML access control mechanisms, including security models, policy frameworks, and implementation approaches. We examine various access control models specifically designed for XML documents, discuss policy specification languages and analyze practical implementation strategies for securing XML data.
+This paper presents a comprehensive overview of XML access control mechanisms, including security models, policy frameworks, and implementation approaches. We examine various access control models specifically designed for XML documents, discuss policy specification languages, and analyze practical implementation strategies for securing XML data.
 \keywords{XML Security \and Access Control \and Role-Based Access Control \and XML Encryption.}
 \end{abstract}
 
-% 1. Introduction
 \section{Introduction}
 Here is the Introduction.
 
-% 2. XML Access Control Models
 \section{XML Access Control Models}
 
-% 2.1. Basic Concepts
 \subsection{Basic Concepts}
 Write here about XML security fundamentals and access control basics.
 
-% 2.2. Fine-Grained Access Control
 \subsection{Fine-Grained Access Control}
 Write here about XML element-level and attribute-level access control.
 
-% 2.3. Role-Based Access Control for XML
 \subsection{Role-Based Access Control for XML}
 Write here about RBAC implementation in XML context.
 
-% 3. Access Control Policy Languages
 \section{Access Control Policy Languages}
 
-% 3.1. XACML
 \subsection{XACML}
 Write here about XACML framework and implementation.
 
-% 3.2. Custom Policy Specifications
 \subsection{Custom Policy Specifications}
 Write here about specialized XML security policy languages.
 
-% 4. Implementation Approaches
 \section{Implementation Approaches}
 
-% 4.1. Enforcement Mechanisms
 \subsection{Enforcement Mechanisms}
 Write here about policy enforcement points and mechanisms.
 
-% 4.2. Performance Considerations
 \subsection{Performance Considerations}
-Write here about optimization techniques and performance analysis.
+Managing Access Control Lists can be a costly computational challenge. Anytime a system needs to check permissions for specific parts of an XML file—like individual elements or attributes—the workload can quickly add up.
 
-% 5. Case Studies
+First way to solve this is with stream-based processing, which solves the memory issues in a very interesting way. Instead of loading an entire XML file into memory, systems check access permissions as the data flows through, piece by piece. It’s kind of like inspecting items on a moving conveyor belt rather than piling everything up to sort through later. Even more, many solutions use skip-indexes, that lets them jump to the most important parts without analyzing everything.
+
+More granular controls can improve security, but they also demand more resources since the system has to process more rules for each access request. Caching is also used to improve efficiency. By saving the results of past permission checks, the system doesn’t need to redo the same work for frequently accessed data. Think of it like a security desk remembering who’s already been cleared to enter, so they don’t have to recheck every time.
+
 \section{Case Studies}
-Write here about practical implementations and real-world scenarios.
+One interesting case comes from a hospital system managing electronic health records. They used role-based access control (RBAC) to assign specific permissions to different roles within the hospital. For example, doctors could see complete patient histories, while nurses could only access medication details and vital signs. This setup ensured patient privacy by restricting sensitive information while still allowing healthcare providers to get the data they needed to do their jobs efficiently.
 
-% 6. Conclusions
+Another fascinating example dealt with what’s called relationship-aware access control. This means protecting not just individual data points but also the connections between them. Imagine a system handling sensitive medical conditions—it’s not just about hiding who has what condition, but also obscuring links between patients and their treatments. Researchers created a way to “mask” certain relationships while keeping the rest of the data useful, like selectively redacting parts of a document while leaving the rest readable.
+
+A third example shows how client-side access control can make a big difference. Engineers designed a system that enforces access rules right on the user’s device, instead of relying on a central server. This setup is especially useful when bandwidth is limited because it avoids sending unauthorized data in the first place. It’s like giving users their own mini security guard that checks permissions locally before letting them access any data.
+
 \section{Conclusions}
 Write here about Conclusions.
 
-% 7. Bibliography
-\begin{thebibliography}{8}
-\bibitem{damiani2002fine}
-Damiani, E., et al.: A fine-grained access control system for XML documents. ACM Trans. Inf. Syst. Secur. 5(2), 169--202 (2002)
+\begin{thebibliography}{9}
 
-\bibitem{bertino2001authorization}
-Bertino, E., Ferrari, E.: Secure and selective dissemination of XML documents. ACM Trans. Inf. Syst. Secur. 5(3), 290--331 (2002)
-
-\bibitem{oasis2013extensible}
-OASIS: eXtensible Access Control Markup Language (XACML) Version 3.0 (2013)
-
-\bibitem{murata2006xml}
-Murata, M., et al.: XML access control using static analysis. ACM Trans. Inf. Syst. Secur. 9(3), 292--324 (2006)
-
-\end{thebibliography}
+    \bibitem{damiani2002fine}
+    Damiani, E., et al.: A fine-grained access control system for XML documents. ACM Trans. Inf. Syst. Secur. 5(2), 169--202 (2002)
+    
+    \bibitem{bertino2001authorization}
+    Bertino, E., Ferrari, E.: Secure and selective dissemination of XML documents. ACM Trans. Inf. Syst. Secur. 5(3), 290--331 (2002)
+    
+    \bibitem{oasis2013extensible}
+    OASIS: eXtensible Access Control Markup Language (XACML) Version 3.0 (2013)
+    
+    \bibitem{Evered2002}
+    Evered, M., Bögeholz, S.: A Case Study in Access Control Requirements for a Health Information System. \textit{Proceedings of the Australasian Information Security Workshop}, CRPIT Volume 32 (2002). \url{https://crpit.scem.westernsydney.edu.au/confpapers/CRPITV32Evered.pdf}
+    
+    \bibitem{RoleBasedAccessControl}
+    Joshi, A., Joshi, K. P., Finin, T.: Securing XML with Role-Based Access Control: A Case Study in Health Care. In \textit{Information Technology for Management: Emerging Research and Applications}, Springer (2013). \url{https://www.igi-global.com/chapter/securing-xml-with-role-based-access-control/78879}
+    
+    \bibitem{RelationshipAwareAccessControl}
+    Carminati, B., Ferrari, E., Thuraisingham, B. M.: A Rule-Based Approach for Relationship-Aware Access Control for XML Data. \textit{Proceedings of the 30th International Conference on Very Large Data Bases (VLDB)}, Toronto, Canada (2004). \url{https://www.vldb.org/conf/2004/RS3P1.PDF}
+    
+    \bibitem{ClientBasedAccessControl}
+    Dapeng, L., Wei, J.: Client-Based Access Control Management for XML Documents. INRIA (2004). \url{https://inria.hal.science/inria-00070561/document}
+    
+    \bibitem{spdp2007}
+    Ferrari, E., Thuraisingham, B. M., Bertino, E.: Access control and privacy for XML: A review of the state of the art. \textit{Secure Data Management in Decentralized Systems}, Springer (2007). 
+    
+    \end{thebibliography}
+    
 \end{document}
