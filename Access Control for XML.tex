@@ -44,9 +44,9 @@ Scrieți aici despre limbaje specializate pentru politici de securitate XML.
 Scrieți aici despre punctele și mecanismele de aplicare a politicilor.
 
 \subsection{Considerații de Performanță}
-Gestionarea Listelor de Control al Accesului (ACL) poate reprezenta o provocare computațională costisitoare. Oricând un sistem trebuie să verifice permisiunile pentru părți specifice ale unui fișier XML—precum elemente individuale sau atribute—volumul de muncă poate crește rapid.
+Gestionarea Listelor de Control al Accesului (ACL) poate reprezenta o provocare computațională costisitoare. Oricând un sistem trebuie să verifice permisiunile pentru părți specifice ale unui fișier XML, precum elemente individuale sau atribute, volumul de muncă poate crește rapid.
 
-Prima modalitate de a rezolva această problemă este prin procesarea bazată pe flux (stream-based processing), care rezolvă problemele de memorie într-un mod foarte interesant. În loc să încarce întregul fișier XML în memorie, sistemele verifică permisiunile de acces pe măsură ce datele curg, bucată cu bucată. Este ca și cum ai inspecta obiectele pe o bandă rulantă în mișcare, în loc să le stivuiești pentru a le sorta mai târziu. Mai mult decât atât, multe soluții utilizează indici de salt (skip-indexes), care le permit să sară la cele mai importante părți fără a analiza totul.
+Prima modalitate de a rezolva această problemă este prin procesarea bazată pe flux, care rezolvă problemele de memorie într-un mod foarte interesant. În loc să încarce întregul fișier XML în memorie, sistemele verifică permisiunile de acces pe măsură ce datele curg, bucată cu bucată. Este ca și cum ai inspecta obiectele pe o bandă rulantă în mișcare, în loc să le stivuiești pentru a le sorta mai târziu. Mai mult decât atât, multe soluții utilizează indici de salt, care le permit să sară la cele mai importante părți fără a analiza totul.
 
 De asemenea, procesarea bazată pe flux are un avantaj suplimentar în scenariile în care dimensiunea fișierelor XML este foarte mare, reducând semnificativ amprenta memoriei. Spre deosebire de metodele bazate pe Document Object Model (DOM), care necesită încărcarea completă a documentului în memorie, această metodă este ideală pentru aplicații scalabile și eficiente.
 
@@ -57,7 +57,7 @@ Controalele mai granulare pot îmbunătăți securitatea, dar necesită și mai 
 \section{Studii de Caz}
 Un caz interesant provine dintr-un sistem spitalicesc care gestionează fișe medicale electronice. Aceștia au utilizat controlul accesului bazat pe roluri (RBAC) pentru a atribui permisiuni specifice diferitelor roluri din spital. De exemplu, medicii puteau vedea istoricul complet al pacienților, în timp ce asistentele puteau accesa doar detaliile despre medicamente și semnele vitale. Această configurație asigura confidențialitatea pacienților prin restricționarea informațiilor sensibile, permițând în același timp furnizorilor de servicii medicale să obțină datele necesare pentru a-și îndeplini eficient sarcinile.
 
-Un alt exemplu fascinant se ocupă de ceea ce se numește controlul accesului conștient de relații. Aceasta înseamnă protejarea nu doar a punctelor individuale de date, ci și a conexiunilor dintre ele. Imaginați-vă un sistem care gestionează afecțiuni medicale sensibile—nu este vorba doar despre ascunderea cine are ce afecțiune, ci și despre mascarea legăturilor dintre pacienți și tratamentele lor. Cercetătorii au creat o modalitate de a "masca" anumite relații păstrând în același timp restul datelor utile, ca și cum ai redacta selectiv părți ale unui document păstrând restul lizibil.
+Un alt exemplu fascinant se ocupă de ceea ce se numește controlul accesului conștient de relații. Aceasta înseamnă protejarea nu doar a punctelor individuale de date, ci și a conexiunilor dintre ele. Imaginați-vă un sistem care gestionează afecțiuni medicale sensibile. Nu este vorba doar despre ascunderea cine are ce afecțiune, ci și despre mascarea legăturilor dintre pacienți și tratamentele lor. Cercetătorii au creat o modalitate de a "masca" anumite relații păstrând în același timp restul datelor utile, ca și cum ai redacta selectiv părți ale unui document păstrând restul lizibil.
 
 În sectorul e-commerce, un alt studiu de caz ilustrează utilizarea controlului accesului pentru gestionarea produselor și comenzilor. Într-un sistem de comerț electronic, anumite roluri, precum managerii de stocuri, aveau acces complet la informațiile despre produse și cantități, în timp ce operatorii de livrări aveau acces doar la datele relevante pentru procesarea comenzilor. Acest model nu doar că a îmbunătățit securitatea, dar a redus și erorile umane prin limitarea accesului inutil la informații.
 
@@ -73,6 +73,7 @@ Controlul accesului pentru documentele XML reprezintă un domeniu complex și î
 În final, studiile de caz prezentate ilustrează aplicabilitatea largă a controlului accesului XML în scenarii din lumea reală, de la sistemele de sănătate până la gestionarea datelor sensibile în diverse domenii. Aceste exemple subliniază importanța adaptării soluțiilor la cerințele specifice ale fiecărui context de utilizare.
 
 Pe măsură ce complexitatea sistemelor informatice continuă să crească, dezvoltarea unor mecanisme robuste și eficiente de control al accesului pentru XML rămâne un domeniu activ de cercetare și inovare.
+
 
 \begin{thebibliography}{9}
 
