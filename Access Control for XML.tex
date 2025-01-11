@@ -2,61 +2,77 @@
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{pdfpages}
-\usepackage{listings} % For XML code examples
+\usepackage{listings} % Pentru exemple de cod XML
+\usepackage{setspace}
 \begin{document}
-\title{XML Access Control: Models, Policies and Implementation}
+\title{Controlul Accesului pentru XML: Modele, Politici și Implementare}
 \author{Biliuți Andrei \and Zara Mihnea-Tudor \and Roman Tudor}
-\institute{"Alexandru Ioan Cuza" University of Iași, Iași IS 700132, Romania
+\institute{Universitatea "Alexandru Ioan Cuza" din Iași, Iași IS 700132, România
 \email{romantudor.contact@gmail.com}}
 \maketitle
+\begin{spacing}{1.5}
 \begin{abstract}
-This paper presents a comprehensive overview of XML access control mechanisms, including security models, policy frameworks, and implementation approaches. We examine various access control models specifically designed for XML documents, discuss policy specification languages, and analyze practical implementation strategies for securing XML data.
-\keywords{XML Security \and Access Control \and Role-Based Access Control \and XML Encryption.}
+Această lucrare prezintă o privire de ansamblu cuprinzătoare asupra mecanismelor de control al accesului XML, incluzând modele de securitate, cadre de politici și abordări de implementare. Examinăm diverse modele de control al accesului concepute specific pentru documente XML, discutăm limbaje de specificare a politicilor și analizăm strategii practice de implementare pentru securizarea datelor XML.
+\keywords{Securitate XML \and Control al Accesului \and Control al Accesului Bazat pe Roluri \and Criptare XML.}
 \end{abstract}
 
-\section{Introduction}
-Here is the Introduction.
+\section{Introducere}
+Aici este Introducerea.
 
-\section{XML Access Control Models}
+\section{Modele de Control al Accesului XML}
 
-\subsection{Basic Concepts}
-Write here about XML security fundamentals and access control basics.
+\subsection{Concepte de Bază}
+Scrieți aici despre fundamentele securității XML și bazele controlului accesului.
 
-\subsection{Fine-Grained Access Control}
-Write here about XML element-level and attribute-level access control.
+\subsection{Control al Accesului Fin}
+Scrieți aici despre controlul accesului la nivel de element și atribut XML.
 
-\subsection{Role-Based Access Control for XML}
-Write here about RBAC implementation in XML context.
+\subsection{Controlul Accesului Bazat pe Roluri pentru XML}
+Scrieți aici despre implementarea RBAC în contextul XML.
 
-\section{Access Control Policy Languages}
+\section{Limbaje pentru Politici de Control al Accesului}
 
 \subsection{XACML}
-Write here about XACML framework and implementation.
+Scrieți aici despre cadrul XACML și implementare.
 
-\subsection{Custom Policy Specifications}
-Write here about specialized XML security policy languages.
+\subsection{Specificații de Politici Personalizate}
+Scrieți aici despre limbaje specializate pentru politici de securitate XML.
 
-\section{Implementation Approaches}
+\section{Abordări de Implementare}
 
-\subsection{Enforcement Mechanisms}
-Write here about policy enforcement points and mechanisms.
+\subsection{Mecanisme de Aplicare}
+Scrieți aici despre punctele și mecanismele de aplicare a politicilor.
 
-\subsection{Performance Considerations}
-Managing Access Control Lists can be a costly computational challenge. Anytime a system needs to check permissions for specific parts of an XML file—like individual elements or attributes—the workload can quickly add up.
+\subsection{Considerații de Performanță}
+Gestionarea Listelor de Control al Accesului (ACL) poate reprezenta o provocare computațională costisitoare. Oricând un sistem trebuie să verifice permisiunile pentru părți specifice ale unui fișier XML—precum elemente individuale sau atribute—volumul de muncă poate crește rapid.
 
-First way to solve this is with stream-based processing, which solves the memory issues in a very interesting way. Instead of loading an entire XML file into memory, systems check access permissions as the data flows through, piece by piece. It’s kind of like inspecting items on a moving conveyor belt rather than piling everything up to sort through later. Even more, many solutions use skip-indexes, that lets them jump to the most important parts without analyzing everything.
+Prima modalitate de a rezolva această problemă este prin procesarea bazată pe flux (stream-based processing), care rezolvă problemele de memorie într-un mod foarte interesant. În loc să încarce întregul fișier XML în memorie, sistemele verifică permisiunile de acces pe măsură ce datele curg, bucată cu bucată. Este ca și cum ai inspecta obiectele pe o bandă rulantă în mișcare, în loc să le stivuiești pentru a le sorta mai târziu. Mai mult decât atât, multe soluții utilizează indici de salt (skip-indexes), care le permit să sară la cele mai importante părți fără a analiza totul.
 
-More granular controls can improve security, but they also demand more resources since the system has to process more rules for each access request. Caching is also used to improve efficiency. By saving the results of past permission checks, the system doesn’t need to redo the same work for frequently accessed data. Think of it like a security desk remembering who’s already been cleared to enter, so they don’t have to recheck every time.
+De asemenea, procesarea bazată pe flux are un avantaj suplimentar în scenariile în care dimensiunea fișierelor XML este foarte mare, reducând semnificativ amprenta memoriei. Spre deosebire de metodele bazate pe Document Object Model (DOM), care necesită încărcarea completă a documentului în memorie, această metodă este ideală pentru aplicații scalabile și eficiente.
 
-\section{Case Studies}
-One interesting case comes from a hospital system managing electronic health records. They used role-based access control (RBAC) to assign specific permissions to different roles within the hospital. For example, doctors could see complete patient histories, while nurses could only access medication details and vital signs. This setup ensured patient privacy by restricting sensitive information while still allowing healthcare providers to get the data they needed to do their jobs efficiently.
+Controalele mai granulare pot îmbunătăți securitatea, dar necesită și mai multe resurse, deoarece sistemul trebuie să proceseze mai multe reguli pentru fiecare cerere de acces. Stocarea în cache este, de asemenea, utilizată pentru a îmbunătăți eficiența. Prin salvarea rezultatelor verificărilor anterioare ale permisiunilor, sistemul nu trebuie să refacă aceeași muncă pentru datele accesate frecvent. Este ca și cum un birou de securitate și-ar aminti cine a fost deja autorizat să intre, astfel încât să nu trebuiască să reverifice de fiecare dată.
 
-Another fascinating example dealt with what’s called relationship-aware access control. This means protecting not just individual data points but also the connections between them. Imagine a system handling sensitive medical conditions—it’s not just about hiding who has what condition, but also obscuring links between patients and their treatments. Researchers created a way to “mask” certain relationships while keeping the rest of the data useful, like selectively redacting parts of a document while leaving the rest readable.
+În plus, implementarea unui mecanism de indexare inteligentă pentru fișierele XML ajută la reducerea timpului de procesare. Indicii hierarhici permit accesul rapid la elementele dorite, în loc să se parcurgă întregul document. Această abordare se dovedește utilă în special pentru bazele de date XML distribuite, unde latențele de acces joacă un rol important.
 
-A third example shows how client-side access control can make a big difference. Engineers designed a system that enforces access rules right on the user’s device, instead of relying on a central server. This setup is especially useful when bandwidth is limited because it avoids sending unauthorized data in the first place. It’s like giving users their own mini security guard that checks permissions locally before letting them access any data.
+\section{Studii de Caz}
+Un caz interesant provine dintr-un sistem spitalicesc care gestionează fișe medicale electronice. Aceștia au utilizat controlul accesului bazat pe roluri (RBAC) pentru a atribui permisiuni specifice diferitelor roluri din spital. De exemplu, medicii puteau vedea istoricul complet al pacienților, în timp ce asistentele puteau accesa doar detaliile despre medicamente și semnele vitale. Această configurație asigura confidențialitatea pacienților prin restricționarea informațiilor sensibile, permițând în același timp furnizorilor de servicii medicale să obțină datele necesare pentru a-și îndeplini eficient sarcinile.
 
-\section{Conclusions}
-Write here about Conclusions.
+Un alt exemplu fascinant se ocupă de ceea ce se numește controlul accesului conștient de relații. Aceasta înseamnă protejarea nu doar a punctelor individuale de date, ci și a conexiunilor dintre ele. Imaginați-vă un sistem care gestionează afecțiuni medicale sensibile—nu este vorba doar despre ascunderea cine are ce afecțiune, ci și despre mascarea legăturilor dintre pacienți și tratamentele lor. Cercetătorii au creat o modalitate de a "masca" anumite relații păstrând în același timp restul datelor utile, ca și cum ai redacta selectiv părți ale unui document păstrând restul lizibil.
+
+În sectorul e-commerce, un alt studiu de caz ilustrează utilizarea controlului accesului pentru gestionarea produselor și comenzilor. Într-un sistem de comerț electronic, anumite roluri, precum managerii de stocuri, aveau acces complet la informațiile despre produse și cantități, în timp ce operatorii de livrări aveau acces doar la datele relevante pentru procesarea comenzilor. Acest model nu doar că a îmbunătățit securitatea, dar a redus și erorile umane prin limitarea accesului inutil la informații.
+
+Al treilea exemplu arată cum controlul accesului pe partea clientului poate face o diferență semnificativă. Inginerii au proiectat un sistem care aplică regulile de acces chiar pe dispozitivul utilizatorului, în loc să se bazeze pe un server central. Această configurație este deosebit de utilă când lățimea de bandă este limitată, deoarece evită trimiterea datelor neautorizate de la bun început. Este ca și cum ai da utilizatorilor propriul paznic miniatura care verifică permisiunile local înainte de a le permite accesul la orice date.
+
+\section{Concluzii}
+Controlul accesului pentru documentele XML reprezintă un domeniu complex și în continuă evoluție al securității informației. Prin analiza diverselor modele, politici și implementări prezentate în această lucrare, putem trage următoarele concluzii principale:
+
+În primul rând, importanța controlului granular al accesului în gestionarea documentelor XML nu poate fi subestimată. Capacitatea de a restricționa accesul la nivel de element și atribut oferă flexibilitatea necesară pentru a gestiona informații sensibile în mod eficient, permițând partajarea selectivă a datelor în funcție de necesități.
+
+În al doilea rând, implementările practice demonstrează că există un compromis constant între securitate și performanță. Soluțiile precum procesarea bazată pe flux și utilizarea indicilor de salt oferă modalități promițătoare de a gestiona acest compromis, dar necesită o proiectare atentă și optimizare continuă.
+
+În final, studiile de caz prezentate ilustrează aplicabilitatea largă a controlului accesului XML în scenarii din lumea reală, de la sistemele de sănătate până la gestionarea datelor sensibile în diverse domenii. Aceste exemple subliniază importanța adaptării soluțiilor la cerințele specifice ale fiecărui context de utilizare.
+
+Pe măsură ce complexitatea sistemelor informatice continuă să crească, dezvoltarea unor mecanisme robuste și eficiente de control al accesului pentru XML rămâne un domeniu activ de cercetare și inovare.
 
 \begin{thebibliography}{9}
 
@@ -84,6 +100,7 @@ Write here about Conclusions.
     \bibitem{spdp2007}
     Ferrari, E., Thuraisingham, B. M., Bertino, E.: Access control and privacy for XML: A review of the state of the art. \textit{Secure Data Management in Decentralized Systems}, Springer (2007). 
     
-    \end{thebibliography}
+\end{thebibliography}
+\end{spacing}
     
 \end{document}
