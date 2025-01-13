@@ -91,7 +91,25 @@ Controlul accesului fin nu este lipsit de provocări. Complexitatea definirii ș
 
 \subsection{Controlul Accesului Bazat pe Roluri pentru XML}
 
-Scrieți aici despre implementarea RBAC în contextul XML.
+Controlul accesului bazat pe roluri (Role-Based Access Control – RBAC) este o abordare eficientă și populară pentru gestionarea drepturilor de acces într-un sistem, inclusiv pentru documentele XML. În cadrul acestei metode, drepturile de acces nu sunt atribuite individual fiecărui utilizator, ci sunt asociate cu roluri specifice. Fiecare rol are un set de permisiuni care definesc ce acțiuni poate efectua un utilizator asupra resurselor sistemului.
+
+\subsubsection{Principiul RBAC}
+
+Într-un sistem RBAC, utilizatorii sunt organizați pe baza unor roluri care reflectă pozițiile lor în cadrul organizației sau ale funcțiilor pe care le îndeplinesc. Fiecare rol are permisiuni asociate care stabilesc ce resurse pot fi accesate și ce acțiuni sunt permise asupra acestora. De exemplu, un rol de „administrator” ar putea avea acces complet la toate elementele unui document XML, în timp ce un rol de „cititor” ar putea avea acces doar la anumite secțiuni ale documentului.
+
+\subsubsection{Aplicabilitate în XML}
+
+În contextul XML, RBAC este aplicat pentru a res\-tricționa accesul la anumite elemente sau atribute ale unui document. Astfel, un document XML complex, care conține informații sensibile (de exemplu, date personale sau financiare), poate fi structurat astfel încât doar utilizatorii cu un rol specific să poată accesa aceste părți sensibile ale documentului. În acest mod, se reduce riscul de acces neautorizat și se asigură că utilizatorii pot interacționa doar cu informațiile pentru care au permisiuni clare.
+
+\subsubsection{Implementare și Exemple}
+
+Pentru a implementa RBAC în XML, se pot utiliza tehnici de definire a politicilor de acces care asociază rolurile cu drepturi de acces pe baza documentului XML. De exemplu, un document XML cu structuri precum <Angajat> sau <Salariu> poate defini politici de acces în care doar utilizatorii cu rolul „HR” să poată vizualiza informațiile salariale, iar utilizatorii cu rolul „Manager” să aibă acces la informațiile complete ale angajatului.
+
+Un exemplu de implementare ar putea include folosirea unui sistem extern care gestionează rolurile și permisiunile, integrat cu documentele XML. Aceste politici de acces pot fi specificate în fișiere de configurare sau în sistemele de gestionare a identităților. În mod similar cu alte tipuri de control al accesului, RBAC poate fi implementat prin limbaje precum XACML, care permit crearea și aplicarea acestor politici.
+
+\subsubsection{Avantaje și Provocări}
+
+Unul dintre principalele avantaje ale RBAC este simplificarea administrării permisiunilor. Rolurile bine definite permit o gestionare eficientă a accesului, reducând complexitatea prin eliminarea necesității de a atribui permisiuni individuale pentru fiecare utilizator. Totuși, această abordare poate deveni mai dificil de implementat în organizațiile mari, unde rolurile și permisiunile sunt foarte diverse și schimbătoare. În plus, RBAC nu este ideal pentru situațiile în care utilizatorii au nevoi de acces foarte detaliate sau personalizate, caz în care ar fi necesar un control mai fin.
 
 
 
