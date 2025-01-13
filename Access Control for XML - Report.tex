@@ -30,16 +30,52 @@ Această lucrare analizează atât conceptele fundamentale ale controlului acces
 
 
 
+% Modele de Control al Accesului XML
+
 \section{Modele de Control al Accesului XML}
 
+
+% Concepte de Bază
+
 \subsection{Concepte de Bază}
-Scrieți aici despre fundamentele securității XML și bazele controlului accesului.
+
+Controlul accesului reprezintă un mecanism fundamental al securității informa\-ționale, având scopul de a reglementa cine are dreptul să acceseze anumite resurse și în ce condiții. În contextul XML, aceste resurse sunt structuri de date ierarhice, compuse din elemente și atribute care pot conține informații sensibile. Particularitatea XML constă în faptul că permite reprezentarea datelor într-un mod flexibil și extensibil, însă această caracteristică introduce și provocări majore pentru implementarea unui control eficient al accesului.
+
+Controlul accesului pentru XML se bazează pe politici care definesc drepturile și restricțiile de acces pentru utilizatori sau grupuri de utilizatori. O politică de acces este formată dintr-un set de reguli care specifică:
+
+\begin{itemize}
+
+    \item Subiectul (cine solicită accesul) – de exemplu, un utilizator sau un rol atribuit acestuia;
+
+    \item Obiectul (resursa protejată) – cum ar fi un element XML, un atribut sau o secțiune din document;
+    
+    \item Acțiunea permisă – de exemplu, citirea, scrierea, modificarea sau ștergerea unei resurse;
+    
+    \item Condițiile de acces – circumstanțele specifice în care regula este aplicabilă, cum ar fi timpul, locația sau nivelul de autentificare al utilizatorului.
+    
+\end{itemize}
+
+Un aspect important al controlului accesului în XML este granularitatea. Spre deosebire de alte formate de date, XML necesită posibilitatea de a defini reguli detaliate care să controleze accesul la nivel de element sau atribut. Această finețe este esențială pentru a proteja părți specifice ale documentului fără a restricționa accesul la întregul conținut.
+
+În plus, controlul accesului în XML poate fi combinat cu alte mecanisme de securitate, precum criptarea sau semnătura digitală, pentru a asigura integritatea și confidențialitatea datelor. Aceste mecanisme lucrează împreună pentru a proteja documentele XML împotriva accesului neautorizat și manipulării.
+
+Pe scurt, conceptele de bază ale controlului accesului pentru XML pun accent pe definirea unor politici clare și detaliate, pe granularitate și pe integrarea cu alte tehnici de securitate, toate acestea contribuind la asigurarea protecției eficiente a datelor structurate.
+
+
+% Control al Accesului Fin
 
 \subsection{Control al Accesului Fin}
+
 Scrieți aici despre controlul accesului la nivel de element și atribut XML.
 
+
+% Controlul Accesului Bazat pe Roluri pentru XML
+
 \subsection{Controlul Accesului Bazat pe Roluri pentru XML}
+
 Scrieți aici despre implementarea RBAC în contextul XML.
+
+
 
 \section{Limbaje pentru Politici de Control al Accesului}
 
