@@ -66,7 +66,25 @@ Pe scurt, conceptele de bază ale controlului accesului pentru XML pun accent pe
 
 \subsection{Control al Accesului Fin}
 
-Scrieți aici despre controlul accesului la nivel de element și atribut XML.
+Controlul accesului fin (Fine-Grained Access Control – FGAC) este o tehnică avansată de securitate care permite definirea unor politici de acces detaliate la nivel granular. Spre deosebire de controlul accesului la nivel global sau pe categorii largi de date, FGAC se aplică la nivel de elemente individuale, atribute sau chiar valori dintr-un document XML. Această abordare este esențială în scenarii în care accesul la datele sensibile trebuie să fie personalizat pentru fiecare utilizator sau grup de utilizatori.
+
+\subsubsection{Caracteristici principale ale controlului granular:}
+
+\begin{itemize}
+
+    \item Flexibilitate: Permite specificarea unor reguli diferite pentru părți diferite ale unui document XML, oferind astfel un control mai precis asupra accesului.
+    
+    \item Protecția datelor sensibile: Asigură că doar utilizatorii autorizați pot accesa informațiile critice fără a expune alte părți ale documentului.
+    
+    \item Aplicații în medii complexe: FGAC este utilizat în sistemele financiare, guvernamentale și de sănătate, unde diferite părți ale datelor sunt accesibile în funcție de rolurile și drepturile utilizatorilor.
+    
+\end{itemize}
+
+\subsubsection{Implementare}
+
+Implementarea controlului granular implică utilizarea unor reguli explicite care definesc cine poate accesa ce părți ale unui document. De exemplu, un document XML poate avea elemente precum <Pacient> sau <Salariu> protejate astfel încât doar utilizatorii din anumite roluri (e.g., medici sau manageri) să aibă acces. În acest scop, se folosesc limbaje precum XACML, care permit definirea politicilor la un nivel detaliat.
+
+Controlul accesului fin nu este lipsit de provocări. Complexitatea definirii și gestionării politicilor poate crește semnificativ, iar performanța sistemului poate fi afectată dacă mecanismele de aplicare nu sunt optimizate corespunzător. Cu toate acestea, beneficiile aduse de protecția datelor sensibile și de personalizarea accesului justifică investiția în această abordare.
 
 
 % Controlul Accesului Bazat pe Roluri pentru XML
