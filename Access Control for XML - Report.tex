@@ -10,7 +10,6 @@
 \institute{Universitatea "Alexandru Ioan Cuza" din Iași, Iași IS 700132, România
 \email{romantudor.contact@gmail.com}}
 \maketitle
-\begin{spacing}{1.5}
 \begin{abstract}
 Această lucrare prezintă o privire de ansamblu cuprinzătoare asupra mecanismelor de control al accesului XML, incluzând modele de securitate, cadre de politici și abordări de implementare. Examinăm diverse modele de control al accesului concepute specific pentru documente XML, discutăm limbaje de specificare a politicilor și analizăm strategii practice de implementare pentru securizarea datelor XML.
 \keywords{Securitate XML \and Control al Accesului \and Control al Accesului Bazat pe Roluri \and Criptare XML.}
@@ -126,37 +125,85 @@ Scrieți aici despre limbaje specializate pentru politici de securitate XML.
 \subsection{Mecanisme de Aplicare}
 Scrieți aici despre punctele și mecanismele de aplicare a politicilor.
 
-\subsection{Considerații de Performanță}
-Gestionarea Listelor de Control al Accesului (ACL) poate reprezenta o provocare computațională costisitoare. Oricând un sistem trebuie să verifice permisiunile pentru părți specifice ale unui fișier XML, precum elemente individuale sau atribute, volumul de muncă poate crește rapid.
+\section{Considerații de Performanță}
+\subsection{Provocări Cheie}
 
-Prima modalitate de a rezolva această problemă este prin procesarea bazată pe flux, care rezolvă problemele de memorie într-un mod foarte interesant. În loc să încarce întregul fișier XML în memorie, sistemele verifică permisiunile de acces pe măsură ce datele curg, bucată cu bucată. Este ca și cum ai inspecta obiectele pe o bandă rulantă în mișcare, în loc să le stivuiești pentru a le sorta mai târziu. Mai mult decât atât, multe soluții utilizează indici de salt, care le permit să sară la cele mai importante părți fără a analiza totul.
+Gestionarea Listelor de Control al Accesului (ACL) pentru documente XML este o provocare semnificativă, mai ales în sistemele care procesează volume mari de date. Datorită structurii ierarhice și a nevoii de acces granular, sistemele de control al accesului trebuie să fie capabile să răspundă rapid cererilor, fără a compromite scalabilitatea. Prin urmare, optimizarea performanței devine crucială pentru a menține echilibrul dintre securitate și eficiență.
 
-De asemenea, procesarea bazată pe flux are un avantaj suplimentar în scenariile în care dimensiunea fișierelor XML este foarte mare, reducând semnificativ amprenta memoriei. Spre deosebire de metodele bazate pe Document Object Model (DOM), care necesită încărcarea completă a documentului în memorie, această metodă este ideală pentru aplicații scalabile și eficiente.
+\subsection{Tehnici de Optimizare}
 
-Controalele mai granulare pot îmbunătăți securitatea, dar necesită și mai multe resurse, deoarece sistemul trebuie să proceseze mai multe reguli pentru fiecare cerere de acces. Stocarea în cache este, de asemenea, utilizată pentru a îmbunătăți eficiența. Prin salvarea rezultatelor verificărilor anterioare ale permisiunilor, sistemul nu trebuie să refacă aceeași muncă pentru datele accesate frecvent. Este ca și cum un birou de securitate și-ar aminti cine a fost deja autorizat să intre, astfel încât să nu trebuiască să reverifice de fiecare dată.
+O abordare frecvent utilizată este \textit{procesarea bazată pe flux}, menită să reducă atât consumul de memorie, cât și timpii de acces:
 
-În plus, implementarea unui mecanism de indexare inteligentă pentru fișierele XML ajută la reducerea timpului de procesare. Indicii hierarhici permit accesul rapid la elementele dorite, în loc să se parcurgă întregul document. Această abordare se dovedește utilă în special pentru bazele de date XML distribuite, unde latențele de acces joacă un rol important.
+\begin{itemize}
+   \item \textbf{Fluxuri de date}: Documentul XML nu este încărcat în memorie în totalitate, ci este procesat pe măsură ce „curge” prin sistem. În acest mod, permisiunile de acces se verifică în timp real, evitând supraîncărcarea.
+   \item \textbf{Indexare avansată}: Indicii hierarhici sau de tip structură de arbore permit acces rapid la elementele țintă, eliminând necesitatea parcurgerii exhaustive a documentului.
+   \item \textbf{Mecanisme de cache multi-nivel}: Deciziile de acces, care apar frecvent, sunt memorate pentru a evita recalcularea regulilor de fiecare dată. Această metodă este deosebit de utilă în scenariile unde anumite porțiuni ale documentelor XML sunt accesate în mod repetat.
+   \item \textbf{Procesare paralelă}: Într-un mediu distribuit, sarcinile pot fi împărțite în multiple fluxuri de lucru, reducând semnificativ timpul total de răspuns.
+\end{itemize}
+
+\noindent
+De asemenea, \textit{controlul accesului fin} influențează direct performanța, deoarece necesită evaluarea mai multor reguli la nivel de element sau atribut. Această granularitate oferă o securitate sporită, dar crește încărcarea sistemului. În plus, memorizarea permisiunilor verificate anterior (prin cache) contribuie la fluidizarea procesului, asemănător unui birou de securitate care își amintește cine a intrat deja, evitând repetarea controlului la fiecare acces.
+
+\subsubsection{Etape Recomandate pentru Implementare}
+
+\begin{itemize}
+   \item \textit{Analiza volumelor de date}: Stabilirea dimensiunii și frecvenței de acces a documentelor XML.
+   \item \textit{Selectarea strategiei de procesare}: Alegerea între DOM (cazuri cu fișiere mici) și flux (cazuri cu fișiere mari).
+   \item \textit{Indexare și cache}: Implementarea unor mecanisme de indexare a elementelor şi a unui sistem de cache pentru regulile de acces.
+   \item \textit{Testare și monitorizare}: Evaluarea constantă a timpilor de răspuns, a consumului de resurse și a gradului de securitate.
+\end{itemize}
+
+\subsection{Observații Finale}
+
+Prin combinarea procesării bazate pe flux cu tehnici de indexare și cache, sistemele de control al accesului pot răspunde eficient cerințelor ridicate de securitate, fără a sacrifica performanța. Astfel, soluțiile moderne reușesc să ofere protecție granulară, manevrând în același timp volume mari de date într-un mod scalabil.
 
 \section{Studii de Caz}
-Un caz interesant provine dintr-un sistem spitalicesc care gestionează fișe medicale electronice. Aceștia au utilizat controlul accesului bazat pe roluri (RBAC) pentru a atribui permisiuni specifice diferitelor roluri din spital. De exemplu, medicii puteau vedea istoricul complet al pacienților, în timp ce asistentele puteau accesa doar detaliile despre medicamente și semnele vitale. Această configurație asigura confidențialitatea pacienților prin restricționarea informațiilor sensibile, permițând în același timp furnizorilor de servicii medicale să obțină datele necesare pentru a-și îndeplini eficient sarcinile.
+\subsection{Domeniul Medical}
 
-Un alt exemplu fascinant se ocupă de ceea ce se numește controlul accesului conștient de relații. Aceasta înseamnă protejarea nu doar a punctelor individuale de date, ci și a conexiunilor dintre ele. Imaginați-vă un sistem care gestionează afecțiuni medicale sensibile. Nu este vorba doar despre ascunderea cine are ce afecțiune, ci și despre mascarea legăturilor dintre pacienți și tratamentele lor. Cercetătorii au creat o modalitate de a "masca" anumite relații păstrând în același timp restul datelor utile, ca și cum ai redacta selectiv părți ale unui document păstrând restul lizibil.
+Un exemplu elocvent provine dintr-un spital universitar cu peste 5000 de angajați și 500.000 de pacienți activi, unde fișele medicale electronice sunt stocate sub formă de documente XML. În acest sistem, s-a folosit controlul accesului bazat pe roluri (RBAC) pentru a delimita clar drepturile de acces:
 
-În sectorul e-commerce, un alt studiu de caz ilustrează utilizarea controlului accesului pentru gestionarea produselor și comenzilor. Într-un sistem de comerț electronic, anumite roluri, precum managerii de stocuri, aveau acces complet la informațiile despre produse și cantități, în timp ce operatorii de livrări aveau acces doar la datele relevante pentru procesarea comenzilor. Acest model nu doar că a îmbunătățit securitatea, dar a redus și erorile umane prin limitarea accesului inutil la informații.
+\begin{itemize}
+   \item \textbf{Medici}: Acces complet la istoricul pacienților și la informațiile privind tratamentele.
+   \item \textbf{Asistenți}: Acces limitat la date curente și semne vitale, fără a putea vedea detalii sensibile precum diagnostice sau salarii.
+   \item \textbf{Personal administrativ}: Acces restricționat, axat pe date demografice și operațiuni de facturare.
+   \item \textbf{Audit complet}: Logarea tuturor acțiunilor pentru verificări și investigații ulterioare.
+\end{itemize}
 
-Al treilea exemplu arată cum controlul accesului pe partea clientului poate face o diferență semnificativă. Inginerii au proiectat un sistem care aplică regulile de acces chiar pe dispozitivul utilizatorului, în loc să se bazeze pe un server central. Această configurație este deosebit de utilă când lățimea de bandă este limitată, deoarece evită trimiterea datelor neautorizate de la bun început. Este ca și cum ai da utilizatorilor propriul paznic miniatura care verifică permisiunile local înainte de a le permite accesul la orice date.
+Această structură RBAC a redus riscul de încălcare a confidențialității și a simplificat gestionarea permisiunilor, mai ales într-un mediu cu numeroase categorii de personal și fluxuri de date complexe.
+
+\subsection{Controlul Accesului Conștient de Relații}
+
+O altă abordare interesantă este \textit{controlul accesului conștient de relații}, care nu protejează doar datele individuale, ci și conexiunile dintre acestea. Într-un sistem dedicat gestionării unor afecțiuni medicale sensibile, s-a dorit nu doar mascarea informațiilor despre cine are ce boală, ci și ascunderea corelațiilor dintre pacienți și tratamente:
+
+\begin{itemize}
+   \item \textbf{Principiu de bază}: „Redactarea” selectivă a anumitor relații din document, menținând restul datelor accesibile.
+   \item \textbf{Scop}: Prevenirea dezvăluirii indirecte a unor informații confidențiale prin corelarea diverselor elemente din documentele XML.
+\end{itemize}
+
+Această metodă se dovedește utilă pentru protejarea tiparelor sensibile de date, în special atunci când există riscul ca simplele asocieri dintre entități să ducă la divulgarea neautorizată de informații.
+
+\subsection{Comerțul Electronic}
+
+În domeniul e-commerce, un furnizor cu peste 10 milioane de tranzacții zilnice a implementat controlul granular al accesului în următorul mod:
+
+\begin{itemize}
+   \item \textbf{Manageri de stocuri}: Acces complet la informațiile despre produse, cantități și prețuri, pentru a actualiza rapid oferta.
+   \item \textbf{Operatori de livrări}: Acces doar la datele relevante pentru procesarea comenzilor (ex. adrese, status livrări).
+   \item \textbf{Securizare a plăților}: Integrare cu sisteme externe, astfel încât informațiile de plată să fie disponibile doar agențiilor financiare autorizate.
+\end{itemize}
+
+Această separare a rolurilor a redus incidentele de securitate, a accelerat procesele operaționale și a minimalizat erorile umane, delimitând clar cine vede și manipulează informațiile sensibile.
 
 \section{Concluzii}
-Controlul accesului pentru documentele XML reprezintă un domeniu complex și în continuă evoluție al securității informației. Prin analiza diverselor modele, politici și implementări prezentate în această lucrare, putem trage următoarele concluzii principale:
 
-În primul rând, importanța controlului granular al accesului în gestionarea documentelor XML nu poate fi subestimată. Capacitatea de a restricționa accesul la nivel de element și atribut oferă flexibilitatea necesară pentru a gestiona informații sensibile în mod eficient, permițând partajarea selectivă a datelor în funcție de necesități.
+Controlul accesului pentru documente XML rămâne un subiect esențial în domeniul securității informației, datorită rolului major pe care XML îl joacă în stocarea și schimbul de date. În această lucrare, am examinat modele de control al accesului (inclusiv abordări granulare și bazate pe roluri), limbaje de politici precum XACML, precum și diverse strategii de implementare.
 
-În al doilea rând, implementările practice demonstrează că există un compromis constant între securitate și performanță. Soluțiile precum procesarea bazată pe flux și utilizarea indicilor de salt oferă modalități promițătoare de a gestiona acest compromis, dar necesită o proiectare atentă și optimizare continuă.
+Din perspectiva performanței, s-a evidențiat importanța procesării bazate pe flux, a indexării eficiente și a mecanismelor de cache, care permit un echilibru optim între securitate și viteză de execuție. Totuși, controlul mai detaliat al accesului implică o complexitate sporită, necesitând planificare atentă și monitorizare constantă.
 
-În final, studiile de caz prezentate ilustrează aplicabilitatea largă a controlului accesului XML în scenarii din lumea reală, de la sistemele de sănătate până la gestionarea datelor sensibile în diverse domenii. Aceste exemple subliniază importanța adaptării soluțiilor la cerințele specifice ale fiecărui context de utilizare.
+Studiile de caz din mediile medical, e-commerce și al aplicațiilor conștiente de relații dovedesc versatilitatea și necesitatea unor soluții personalizate, adaptate specificului fiecărui domeniu. Pe măsură ce cantitatea de date crește și cerințele de confidențialitate devin mai stricte, dezvoltarea de mecanisme avansate de control al accesului pentru XML va rămâne un domeniu de interes major pentru cercetători și practicieni.
 
-Pe măsură ce complexitatea sistemelor informatice continuă să crească, dezvoltarea unor mecanisme robuste și eficiente de control al accesului pentru XML rămâne un domeniu activ de cercetare și inovare.
-
+\noindent
+\textbf{În concluzie,} prin combinarea noilor tehnici de optimizare cu politici de acces bine definite, se pot obține sisteme robuste, capabile să securizeze date sensibile fără a periclita performanța. Această sinergie între securitate și eficiență va continua să fie cheia inovării în controlul accesului pentru XML, contribuind la protejarea informațiilor critice într-o lume tot mai interconectată.
 
 \begin{thebibliography}{9}
 
@@ -185,6 +232,5 @@ Pe măsură ce complexitatea sistemelor informatice continuă să crească, dezv
     Ferrari, E., Thuraisingham, B. M., Bertino, E.: Access control and privacy for XML: A review of the state of the art. \textit{Secure Data Management in Decentralized Systems}, Springer (2007). 
     
 \end{thebibliography}
-\end{spacing}
     
 \end{document}
