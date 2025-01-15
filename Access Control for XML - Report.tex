@@ -109,19 +109,58 @@ Un exemplu de implementare ar putea include folosirea unui sistem extern care ge
 Unul dintre principalele avantaje ale RBAC este simplificarea administrării permisiunilor. Rolurile bine definite permit o gestionare eficientă a accesului, reducând complexitatea prin eliminarea necesității de a atribui permisiuni individuale pentru fiecare utilizator. Totuși, această abordare poate deveni mai dificil de implementat în organizațiile mari, unde rolurile și permisiunile sunt foarte diverse și schimbătoare. În plus, RBAC nu este ideal pentru situațiile în care utilizatorii au nevoi de acces foarte detaliate sau personalizate, caz în care ar fi necesar un control mai fin.
 
 
-
 \section{Limbaje pentru Politici de Control al Accesului}
 
-\subsection{XACML}
-Scrieți aici despre cadrul XACML și implementare.
+\subsection{XACML: Standardul ce a revoluționat controlul accesului}
+\label{sec:xacml}
+
+În timp ce unele organizații optează pentru politici personalizate pentru a răspunde unor nevoi foarte precise, multe altele aleg să se bazeze pe standarde deja consacrate. \emph{eXtensible Access Control Markup Language (XACML)} a câștigat reputația de \textbf{„limbaj universal”} pentru descrierea regulilor de acces, tocmai pentru că oferă o structură clară și interoperabilitate între diverse platforme.
+
+Povestea XACML începe cu dorința de a separa regulile de securitate de logica aplicației. În loc să modificăm de fiecare dată codul unei aplicații pentru a restricționa accesul la anumite resurse, \emph{XACML} permite stocarea tuturor regulilor într-un fișier de politici. Acest fișier poate fi modificat independent, iar aplicația pur și simplu „întreabă” un serviciu specializat dacă o anumită operație este permisă sau nu.
+
+La baza acestui sistem stau două componente importante:
+\begin{itemize}
+    \item \textbf{Policy Decision Point (PDP)}: Motorul de evaluare a regulilor, care citește fișierele XACML și emite un verdict: „\texttt{Permit}” sau „\texttt{Deny}”.
+    \item \textbf{Policy Enforcement Point (PEP)}: Filtrul care interceptează cererile de acces. Când un utilizator încearcă să acceseze un fișier XML, PEP dialoghează cu PDP pentru a primi răspunsul potrivit, apoi autorizează sau blochează accesul.
+\end{itemize}
+
+Astfel, XACML oferă mai mult decât o simplă listă de reguli. El definește \emph{algoritmi de combinare} pentru cazurile în care două reguli se contrazic (de exemplu, dacă o regulă permite accesul, iar alta îl interzice), \emph{structuri de ierarhizare} (PolicySet, Policy, Rule) și \emph{posibilitatea de a integra informații contextuale} (ora din zi, locația sau tipul de dispozitiv). Aceste elemente fac din XACML un standard versatil, capabil să se adapteze la medii de lucru foarte diferite, de la companii mici până la corporații internaționale.
+
+Desigur, odată cu această putere de expresie, vine și un grad de complexitate tehnică. Echipa care implementează XACML are nevoie de timp pentru a studia sintaxa, modul de structurare a politicilor și posibilele conflicte dintre reguli. Totuși, investiția merită adesea, fiindcă un \emph{sistem XACML bine configurat} poate scuti organizația de munca uriașă de a regândi totul de la zero când apar modificări legislative sau restricții noi de securitate.
+
+
 
 \subsection{Specificații de Politici Personalizate}
-Scrieți aici despre limbaje specializate pentru politici de securitate XML.
+\label{sec:custom-policy-specs}
+
+Să ne imaginăm o organizație dinamică, în care fiecare departament are propriile reguli privind accesul la date. Unii angajați pot consulta integral fișierele XML, în timp ce alții trebuie să vadă doar fragmente esențiale. După nenumărate ședințe și discuții cu liderii departamentelor, echipa de securitate descoperă că \textbf{limbajele standard} precum XACML nu acoperă toate cerințele speciale care apar în practică. Astfel, prinde contur ideea de a crea \emph{politici personalizate}, croite special pentru fiecare flux de lucru și set de date.
+
+Definirea acestor politici începe printr-o analiză atentă a nevoilor reale: cine are acces la datele financiare, cine poate modifica fișierele de resurse umane, în ce condiții sunt permise anumite operații și, mai ales, cum se protejează informațiile sensibile la nivel de element XML. Fie că discutăm despre reguli impuse de legislație (cum ar fi protecția datelor cu caracter personal) sau de cerințe interne (mascarea anumitor câmpuri în funcție de rol), \emph{politicile personalizate} oferă flexibilitatea de a scrie reguli mult mai nuanțate față de cele din pachetul standard.
+
+Pe parcursul dezvoltării acestor politici, se conturează câteva etape clare: mai întâi, se stabilește \textbf{structura} politicii (formatul de fișier, ce tipuri de etichete sunt folosite, cum se reprezintă rolurile și condițiile). Apoi, se implementează un \emph{parser} care să interpreteze fiecare regulă și să decidă dacă o cerere de acces este permisă sau refuzată. În final, pentru ca întregul sistem să funcționeze, politicile personalizate trebuie \textbf{integrate} cu mecanismele de autentificare deja existente, astfel încât fiecare utilizator să fie asociat corect cu rolul sau permisiunile corespunzătoare.
+
+Deși această abordare este extrem de utilă pentru rezolvarea problemelor specifice, echipa de securitate constată că menținerea și actualizarea constantă a acestor reguli necesită un efort considerabil. Cu toate acestea, beneficiile sunt pe măsură: \emph{control fin} asupra accesului, adaptare rapidă la noi cerințe și asigurarea faptului că datele confidențiale rămân protejate exact așa cum a intenționat fiecare departament.
 
 \section{Abordări de Implementare}
 
-\subsection{Mecanisme de Aplicare}
-Scrieți aici despre punctele și mecanismele de aplicare a politicilor.
+\subsection{Mecanisme de Aplicare: Cum capătă viață regulile}
+\label{sec:enforcement-mechanisms}
+
+Indiferent că vorbim de \emph{politici personalizate} sau de \emph{XACML}, orice sistem de control al accesului are nevoie de un \textbf{mecanism} care să se asigure că regulile scrise pe hârtie (sau în fișierele XML de politici) devin realitate. În practică, aceste \emph{mecanisme de aplicare} sunt precum „gardienii” sistemului: primesc cereri de acces la date și verifică instantaneu regulile stabilite.
+
+Imaginați-vă un \emph{Policy Enforcement Point (PEP)} așezat la poarta aplicației sau a bazei de date. Când un angajat încearcă să descarce un document XML, PEP solicită opinia unui \emph{Policy Decision Point (PDP)}. Acesta din urmă consultă politicile definite – fie că sunt personalizate, fie că respectă standardul XACML – și stabilește dacă angajatul are dreptul să vizualizeze documentul în întregime, parțial ori deloc.
+
+Uneori, organizațiile aleg să amplaseze acest \emph{gardian} la nivel de \emph{server de aplicații}: toate cererile venite de la clienți (fie ele interfețe web, servicii REST sau SOAP) sunt verificate centralizat, iar serverul decide dacă acceptă sau refuză accesul. Alteori, controlul are loc direct \emph{în motorul de bază de date}, pentru a evita situațiile în care datele sensibile sunt transferate la nivel de aplicație, doar pentru a fi filtrate ulterior.
+
+Indiferent de locul unde se află, \emph{mecanismul de aplicare} trebuie să gestioneze provocări precum:
+\begin{itemize}
+    \item \textbf{Performanța}: în sistemele cu mii de cereri simultane, evaluarea fiecărei reguli poate deveni un proces costisitor dacă nu există \emph{cache} sau strategii de optimizare.
+    \item \textbf{Actualizările dinamice ale politicilor}: atunci când o regulă se schimbă, trebuie ca \emph{PDP} să fie anunțat imediat, pentru a nu exista o fereastră de inconsistență.
+    \item \textbf{Audit și trasabilitate}: fiecare decizie de \texttt{Permit} sau \texttt{Deny} ar trebui înregistrată, astfel încât, dacă apare un incident de securitate, organizația să poată reconstitui întregul traseu al accesărilor.
+\end{itemize}
+
+Astfel, \emph{mecanismele de aplicare} sunt veriga finală și vitală a întregului lanț de securitate. Fără ele, politicile rămân simple documente, oricât de ingenios ar fi fost concepute. Printr-o implementare eficientă la nivelul corect al sistemului – server, bază de date sau chiar la client, cu limitările de rigoare – \emph{enforcement-ul} asigură că datele XML sunt protejate în timp real, respectând la literă regulile stabilite de organizație.
+
 
 \section{Considerații de Performanță}
 \subsection{Provocări Cheie}
