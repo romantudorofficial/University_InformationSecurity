@@ -2,11 +2,13 @@
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{pdfpages}
-\usepackage{listings} % Pentru exemple de cod XML
+\usepackage{listings}
 \usepackage{setspace}
 \begin{document}
 \title{Controlul Accesului pentru XML: Modele, Politici și Implementare}
 \author{Biliuți Andrei \and Zară Mihnea-Tudor \and Roman Tudor}
+\institute{Universitatea "Alexandru Ioan Cuza" din Iași, Iași IS 700132, România
+\email{romantudor.contact@gmail.com}}
 \maketitle
 \begin{abstract}
 Această lucrare prezintă o privire de ansamblu cuprinzătoare asupra mecanismelor de control al accesului XML, incluzând modele de securitate, cadre de politici și abordări de implementare. Examinăm diverse modele de control al accesului concepute specific pentru documente XML, discutăm limbaje de specificare a politicilor și analizăm strategii practice de implementare pentru securizarea datelor XML.
@@ -109,12 +111,13 @@ Un exemplu de implementare ar putea include folosirea unui sistem extern care ge
 Unul dintre principalele avantaje ale RBAC este simplificarea administrării permisiunilor. Rolurile bine definite permit o gestionare eficientă a accesului, reducând complexitatea prin eliminarea necesității de a atribui permisiuni individuale pentru fiecare utilizator. Totuși, această abordare poate deveni mai dificil de implementat în organizațiile mari, unde rolurile și permisiunile sunt foarte diverse și schimbătoare. În plus, RBAC nu este ideal pentru situațiile în care utilizatorii au nevoi de acces foarte detaliate sau personalizate, caz în care ar fi necesar un control mai fin.
 
 
+
 \section{Limbaje pentru Politici de Control al Accesului}
 
 \subsection{XACML: Standardul ce a revoluționat controlul accesului}
 \label{sec:xacml}
 
-În timp ce unele organizații optează pentru politici personalizate pentru a răspunde unor nevoi foarte precise, multe altele aleg să se bazeze pe standarde deja consacrate. \emph{eXtensible Access Control Markup Language (XACML)} a câștigat reputația de \textbf{„limbaj universal”} pentru descrierea regulilor de acces, tocmai pentru că oferă o structură clară și interoperabilitate între diverse platforme.
+În timp ce unele organizații optează pentru politici personalizate pentru a răs\-punde unor nevoi foarte precise, multe altele aleg să se bazeze pe standarde deja consacrate. \emph{eXtensible Access Control Markup Language (XACML)} a câștigat reputația de \textbf{„limbaj universal”} pentru descrierea regulilor de acces, tocmai pentru că oferă o structură clară și interoperabilitate între diverse platforme.
 
 Povestea XACML începe cu dorința de a separa regulile de securitate de logica aplicației. În loc să modificăm de fiecare dată codul unei aplicații pentru a restricționa accesul la anumite resurse, \emph{XACML} permite stocarea tuturor regulilor într-un fișier de politici. Acest fișier poate fi modificat independent, iar aplicația pur și simplu „întreabă” un serviciu specializat dacă o anumită operație este permisă sau nu.
 
