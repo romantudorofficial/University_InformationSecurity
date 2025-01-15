@@ -7,8 +7,6 @@
 \begin{document}
 \title{Controlul Accesului pentru XML: Modele, Politici și Implementare}
 \author{Biliuți Andrei \and Zară Mihnea-Tudor \and Roman Tudor}
-\institute{Universitatea "Alexandru Ioan Cuza" din Iași, Iași IS 700132, România
-\email{romantudor.contact@gmail.com}}
 \maketitle
 \begin{abstract}
 Această lucrare prezintă o privire de ansamblu cuprinzătoare asupra mecanismelor de control al accesului XML, incluzând modele de securitate, cadre de politici și abordări de implementare. Examinăm diverse modele de control al accesului concepute specific pentru documente XML, discutăm limbaje de specificare a politicilor și analizăm strategii practice de implementare pentru securizarea datelor XML.
@@ -136,8 +134,8 @@ O abordare frecvent utilizată este \textit{procesarea bazată pe flux}, menită
 
 \begin{itemize}
    \item \textbf{Fluxuri de date}: Documentul XML nu este încărcat în memorie în totalitate, ci este procesat pe măsură ce „curge” prin sistem. În acest mod, permisiunile de acces se verifică în timp real, evitând supraîncărcarea.
-   \item \textbf{Indexare avansată}: Indicii hierarhici sau de tip structură de arbore permit acces rapid la elementele țintă, eliminând necesitatea parcurgerii exhaustive a documentului.
-   \item \textbf{Mecanisme de cache multi-nivel}: Deciziile de acces, care apar frecvent, sunt memorate pentru a evita recalcularea regulilor de fiecare dată. Această metodă este deosebit de utilă în scenariile unde anumite porțiuni ale documentelor XML sunt accesate în mod repetat.
+   \item \textbf{Indexare avansată}: Indicii hierarhici sau de tip structură de arbore permit acces rapid la elementele țintă, eliminând necesitatea parcurgerii complete a documentului.
+   \item \textbf{Mecanisme de cache multi-nivel}: Deciziile de acces care apar frecvent sunt memorate pentru a evita recalcularea regulilor de fiecare dată. Această metodă este deosebit de utilă în scenariile unde anumite porțiuni ale documentelor XML sunt accesate în mod repetat.
    \item \textbf{Procesare paralelă}: Într-un mediu distribuit, sarcinile pot fi împărțite în multiple fluxuri de lucru, reducând semnificativ timpul total de răspuns.
 \end{itemize}
 
@@ -160,7 +158,7 @@ Prin combinarea procesării bazate pe flux cu tehnici de indexare și cache, sis
 \section{Studii de Caz}
 \subsection{Domeniul Medical}
 
-Un exemplu elocvent provine dintr-un spital universitar cu peste 5000 de angajați și 500.000 de pacienți activi, unde fișele medicale electronice sunt stocate sub formă de documente XML. În acest sistem, s-a folosit controlul accesului bazat pe roluri (RBAC) pentru a delimita clar drepturile de acces:
+Un exemplu concret provine dintr-un spital cu peste 5000 de angajați și 500.000 de pacienți activi, unde fișele medicale electronice sunt stocate sub formă de documente XML. În acest sistem, s-a folosit controlul accesului bazat pe roluri (RBAC) pentru a delimita clar drepturile de acces:
 
 \begin{itemize}
    \item \textbf{Medici}: Acces complet la istoricul pacienților și la informațiile privind tratamentele.
@@ -176,7 +174,7 @@ Această structură RBAC a redus riscul de încălcare a confidențialității �
 O altă abordare interesantă este \textit{controlul accesului conștient de relații}, care nu protejează doar datele individuale, ci și conexiunile dintre acestea. Într-un sistem dedicat gestionării unor afecțiuni medicale sensibile, s-a dorit nu doar mascarea informațiilor despre cine are ce boală, ci și ascunderea corelațiilor dintre pacienți și tratamente:
 
 \begin{itemize}
-   \item \textbf{Principiu de bază}: „Redactarea” selectivă a anumitor relații din document, menținând restul datelor accesibile.
+   \item \textbf{Principiu de bază}: Redactarea selectivă a anumitor relații din document, menținând restul datelor accesibile.
    \item \textbf{Scop}: Prevenirea dezvăluirii indirecte a unor informații confidențiale prin corelarea diverselor elemente din documentele XML.
 \end{itemize}
 
